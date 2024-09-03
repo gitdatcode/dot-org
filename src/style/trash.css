@@ -9,7 +9,8 @@ main,
 footer {
   width: 92%;
   max-width: 600px;
-  margin-inline-start: 8%;
+  margin-inline-start: clamp(4%, calc((100% - 600px) / 2), 8%);
+  margin-inline-end: auto;
   box-sizing: border-box;
 }
 
@@ -23,10 +24,10 @@ header {
 }
 
 p {
-  font-size: 20px;
+  font-size: var(--step-0);
   line-height: 1.5;
-  max-width: 52ch;
-  text-wrap: balance;
+  max-width: 54ch;
+  text-wrap: pretty;
 }
 
 .button {

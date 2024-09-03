@@ -7,3 +7,4 @@ utility - reused classes that perform a specific design pattern
 */
 @layer webfont, reset, token, utility;
 @import "./module/accessibility.css" layer(utility);
+@import "./module/font-size.css" layer(token);
