@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "datcode-dot-org",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -10,9 +10,9 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.2",
+    "@astrojs/check": "^0.9.4",
     "@pierre/vercel": "^1.1.1",
-    "astro": "^4.7.0",
+    "astro": "^5.5.2",
     "pierre": "^2.1.9",
     "typescript": "^5.5.4"
   }
