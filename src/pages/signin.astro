@@ -1,0 +1,404 @@
+---
+import Layout from '../layouts/Layout.astro'
+
+// Get Ghost settings to use for authentication
+const ghostUrl =
+  import.meta.env.GHOST_API_URL || import.meta.env.SITE_URL || 'https://'
+
+// Initialize error variable for server-side form handling
+let error: string | null = null
+---
+
+<Layout title="Sign In">
+  <main class="container mx-auto px-4 py-8">
+    <div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
+      <div class="flex border-b mb-6">
+        <button
+          id="signin-tab"
+          class="py-2 px-4 border-b-2 border-purple-600 text-purple-600 font-medium"
+        >
+          Sign In
+        </button>
+        <button
+          id="signup-tab"
+          class="py-2 px-4 border-b-2 border-transparent text-gray-500 font-medium"
+        >
+          Sign Up
+        </button>
+      </div>
+
+      <!-- Sign In Form -->
+      <div id="signin-form" class="block">
+        <form id="signin-form-element" class="space-y-4">
+          <div>
+            <label
+              for="email"
+              class="block text-sm font-medium text-gray-700 mb-1">Email</label
+            >
+            <input
+              type="email"
+              id="signin-email"
+              name="email"
+              required
+              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+              placeholder="your@email.com"
+            />
+          </div>
+
+          <div>
+            <label
+              for="password"
+              class="block text-sm font-medium text-gray-700 mb-1"
+              >Password</label
+            >
+            <input
+              type="password"
+              id="signin-password"
+              name="password"
+              required
+              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+              placeholder="Your password"
+            />
+          </div>
+
+          <div id="signin-message" class="hidden p-3 rounded-md"></div>
+
+          <button
+            type="submit"
+            id="signin-button"
+            class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+          >
+            Sign In
+          </button>
+        </form>
+      </div>
+
+      <!-- Sign Up Form -->
+      <div id="signup-form" class="hidden">
+        <form id="signup-form-element" class="space-y-4">
+          <div>
+            <label
+              for="name"
+              class="block text-sm font-medium text-gray-700 mb-1">Name</label
+            >
+            <input
+              type="text"
+              id="signup-name"
+              name="name"
+              required
+              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+              placeholder="Your Name"
+            />
+          </div>
+
+          <div>
+            <label
+              for="email"
+              class="block text-sm font-medium text-gray-700 mb-1">Email</label
+            >
+            <input
+              type="email"
+              id="signup-email"
+              name="email"
+              required
+              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+              placeholder="your@email.com"
+            />
+          </div>
+
+          <div>
+            <label
+              for="password"
+              class="block text-sm font-medium text-gray-700 mb-1"
+              >Password</label
+            >
+            <input
+              type="password"
+              id="signup-password"
+              name="password"
+              required
+              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+              placeholder="Choose a password"
+            />
+          </div>
+
+          <div id="signup-message" class="hidden p-3 rounded-md"></div>
+
+          <button
+            type="submit"
+            id="signup-button"
+            class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+          >
+            Create Account
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  // Tab switching functionality
+  const signinTab = document.getElementById('signin-tab')
+  const signupTab = document.getElementById('signup-tab')
+  const signinForm = document.getElementById('signin-form')
+  const signupForm = document.getElementById('signup-form')
+
+  // Define error variable for client-side use
+  let error = null
+
+  // Function to switch to signin tab
+  const switchToSignin = () => {
+    signinTab?.classList.add('border-purple-600', 'text-purple-600')
+    signupTab?.classList.remove('border-purple-600', 'text-purple-600')
+    signupTab?.classList.add('border-transparent', 'text-gray-500')
+
+    signinForm?.classList.remove('hidden')
+    signinForm?.classList.add('block')
+    signupForm?.classList.add('hidden')
+    signupForm?.classList.remove('block')
+  }
+
+  // Function to switch to signup tab
+  const switchToSignup = () => {
+    signupTab?.classList.add('border-purple-600', 'text-purple-600')
+    signinTab?.classList.remove('border-purple-600', 'text-purple-600')
+    signinTab?.classList.add('border-transparent', 'text-gray-500')
+
+    signupForm?.classList.remove('hidden')
+    signupForm?.classList.add('block')
+    signinForm?.classList.add('hidden')
+    signinForm?.classList.remove('block')
+  }
+
+  // Check localStorage for tab preference
+  const storedTab = localStorage.getItem('auth_tab')
+  if (storedTab === 'signup') {
+    switchToSignup()
+    // Clear the stored preference
+    localStorage.removeItem('auth_tab')
+  }
+
+  signinTab?.addEventListener('click', switchToSignin)
+  signupTab?.addEventListener('click', switchToSignup)
+
+  // Sign In Form Submission
+  const signinFormElement = document.getElementById('signin-form-element')
+  const signinButton = document.getElementById(
+    'signin-button'
+  ) as HTMLButtonElement
+  const signinMessage = document.getElementById('signin-message')
+
+  signinFormElement?.addEventListener('submit', async (e) => {
+    e.preventDefault()
+
+    if (signinButton) {
+      signinButton.disabled = true
+      signinButton.textContent = 'Signing in...'
+    }
+
+    const email = (document.getElementById('signin-email') as HTMLInputElement)
+      ?.value
+    const password = (
+      document.getElementById('signin-password') as HTMLInputElement
+    )?.value
+
+    try {
+      // Define timeout duration for authentication requests
+      const AUTH_TIMEOUT_MS = 20000 // 20 seconds
+
+      // Set a client-side timeout for the fetch request to prevent hanging UI
+      // if the server is unresponsive or network is slow
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), AUTH_TIMEOUT_MS)
+
+      const response = await fetch('/api/ghost/member', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password }),
+        credentials: 'include',
+        signal: controller.signal
+      })
+
+      clearTimeout(timeoutId)
+
+      const data = await response.json()
+
+      if (signinMessage) {
+        signinMessage.classList.remove(
+          'hidden',
+          'bg-red-100',
+          'text-red-700',
+          'bg-green-100',
+          'text-green-700'
+        )
+
+        if (response.ok) {
+          signinMessage.classList.add('bg-green-100', 'text-green-700')
+          signinMessage.textContent = 'Sign in successful! Redirecting...'
+
+          // Redirect to home page after successful login
+          setTimeout(() => {
+            window.location.href = '/'
+          }, 1000)
+        } else {
+          signinMessage.classList.add('bg-red-100', 'text-red-700')
+          signinMessage.textContent = data.message || 'Failed to sign in'
+
+          // If user not found, offer to switch to signup
+          if (data.type === 'not_found') {
+            const switchLink = document.createElement('button')
+            switchLink.textContent = 'Sign up instead'
+            switchLink.className = 'ml-2 underline text-purple-600'
+            switchLink.addEventListener('click', () => {
+              signupTab?.click()
+              const signupEmailInput = document.getElementById(
+                'signup-email'
+              ) as HTMLInputElement
+              if (signupEmailInput) {
+                signupEmailInput.value = email
+              }
+            })
+
+            signinMessage.appendChild(document.createElement('br'))
+            signinMessage.appendChild(switchLink)
+          }
+        }
+      }
+    } catch (error) {
+      if (signinMessage) {
+        signinMessage.classList.remove('hidden')
+        signinMessage.classList.add('bg-red-100', 'text-red-700')
+
+        // Check if it's an abort error (timeout)
+        if (error instanceof DOMException && error.name === 'AbortError') {
+          signinMessage.textContent =
+            'Request timed out. The server might be busy. Please try again later.'
+        } else {
+          signinMessage.textContent = 'An error occurred. Please try again.'
+        }
+      }
+    } finally {
+      if (signinButton) {
+        signinButton.disabled = false
+        signinButton.textContent = 'Sign In'
+      }
+    }
+  })
+
+  // Sign Up Form Submission
+  const signupFormElement = document.getElementById('signup-form-element')
+  const signupButton = document.getElementById(
+    'signup-button'
+  ) as HTMLButtonElement
+  const signupMessage = document.getElementById('signup-message')
+
+  signupFormElement?.addEventListener('submit', async (e) => {
+    e.preventDefault()
+
+    if (signupButton) {
+      signupButton.disabled = true
+      signupButton.textContent = 'Creating Account...'
+    }
+
+    const name = (document.getElementById('signup-name') as HTMLInputElement)
+      ?.value
+    const email = (document.getElementById('signup-email') as HTMLInputElement)
+      ?.value
+    const password = (
+      document.getElementById('signup-password') as HTMLInputElement
+    )?.value
+
+    try {
+      // Define timeout duration for signup requests (slightly longer than signin)
+      const SIGNUP_TIMEOUT_MS = 25000 // 25 seconds
+
+      // Set a client-side timeout for the fetch request to prevent hanging UI
+      // Account creation may take longer than signin, so we use a longer timeout
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), SIGNUP_TIMEOUT_MS)
+
+      const response = await fetch('/api/ghost/member', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          action: 'signup',
+          name,
+          email,
+          password
+        }),
+        credentials: 'include',
+        signal: controller.signal
+      })
+
+      clearTimeout(timeoutId)
+
+      const data = await response.json()
+
+      if (signupMessage) {
+        signupMessage.classList.remove(
+          'hidden',
+          'bg-red-100',
+          'text-red-700',
+          'bg-green-100',
+          'text-green-700'
+        )
+
+        if (response.ok) {
+          signupMessage.classList.add('bg-green-100', 'text-green-700')
+          signupMessage.textContent =
+            'Account created successfully! Redirecting...'
+
+          // Redirect to home page after successful signup
+          setTimeout(() => {
+            window.location.href = '/'
+          }, 1000)
+        } else {
+          signupMessage.classList.add('bg-red-100', 'text-red-700')
+          signupMessage.textContent = data.message || 'Failed to create account'
+
+          // If email already exists, offer to switch to signin
+          if (data.type === 'already_exists' || response.status === 409) {
+            const switchLink = document.createElement('button')
+            switchLink.textContent = 'Sign in instead'
+            switchLink.className = 'ml-2 underline text-purple-600'
+            switchLink.addEventListener('click', () => {
+              signinTab?.click()
+              const signinEmailInput = document.getElementById(
+                'signin-email'
+              ) as HTMLInputElement
+              if (signinEmailInput) {
+                signinEmailInput.value = email
+              }
+            })
+
+            signupMessage.appendChild(document.createElement('br'))
+            signupMessage.appendChild(switchLink)
+          }
+        }
+      }
+    } catch (error) {
+      if (signupMessage) {
+        signupMessage.classList.remove('hidden')
+        signupMessage.classList.add('bg-red-100', 'text-red-700')
+
+        // Check if it's an abort error (timeout)
+        if (error instanceof DOMException && error.name === 'AbortError') {
+          signupMessage.textContent =
+            'Request timed out. The server might be busy. Please try again later.'
+        } else {
+          signupMessage.textContent = 'An error occurred. Please try again.'
+        }
+      }
+    } finally {
+      if (signupButton) {
+        signupButton.disabled = false
+        signupButton.textContent = 'Create Account'
+      }
+    }
+  })
+</script>
