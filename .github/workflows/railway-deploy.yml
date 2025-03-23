@@ -3,9 +3,12 @@ name: Deploy to Railway
 on:
   push:
     branches:
-      - main  # Change this to your default branch if different
+      - main
+    paths:
+      - src/**
+      - public/**
 
-  workflow_dispatch: # Enables manual triggering functionality for this action
+  workflow_dispatch: # Enables manual triggering
 
 jobs:
   deploy:
