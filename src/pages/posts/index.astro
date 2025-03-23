@@ -27,7 +27,8 @@ try {
       Browse our latest content
     </p>
 
-    <SearchBar />
+    <!-- TODO: Fix search bar -->
+    {isDev && <SearchBar />}
 
     {
       isDev && apiError ? (
