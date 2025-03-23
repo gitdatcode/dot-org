@@ -36,12 +36,12 @@ const GhostRenderer: React.FC<GhostRendererProps> = ({ blocks, className = '' })
 const renderBlock = (block: GhostBlock, index: number): React.ReactNode => {
   switch (block.type) {
     case 'paragraph':
-      return <div key={index} dangerouslySetInnerHTML={{ __html: block.html || '' }} />;
+      return <div key={index} className="text-balance text-secondary" dangerouslySetInnerHTML={{ __html: block.html || '' }} />;
 
     case 'heading': {
       const level = block.attributes?.level || 1;
       const Tag = `h${level}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-      return <Tag key={index} dangerouslySetInnerHTML={{ __html: block.html || '' }} />;
+      return <Tag key={index} className="text-balance text-secondary-focus" dangerouslySetInnerHTML={{ __html: block.html || '' }} />;
     }
 
     case 'list': {
