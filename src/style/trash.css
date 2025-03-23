@@ -5,7 +5,7 @@ body {
 }
 
 header,
-main,
+/* main, */
 footer {
   width: 92%;
   max-width: 600px;
