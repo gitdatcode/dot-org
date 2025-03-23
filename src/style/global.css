@@ -17,68 +17,52 @@ utility - reused classes that perform a specific design pattern
 
 @theme {
   /* Primary brand colors */
-  --primary: #ddff20; /* yellow from button */
-  --primary-focus: #c8e81c; /* slightly darker yellow */
-  --primary-content: #000916; /* dark background for contrast */
+  --color-primary: #ddff20; /* yellow from button */
+  --color-primary-focus: #c8e81c; /* slightly darker yellow */
+  --color-primary-content: #000916; /* dark background for contrast */
 
   /* Secondary brand colors */
-  --secondary: #b7d3f6; /* light blue text color */
-  --secondary-focus: #92bef0; /* slightly darker light blue */
-  --secondary-content: #0d1520; /* dark background for contrast */
+  --color-secondary: #b7d3f6; /* light blue text color */
+  --color-secondary-focus: #92bef0; /* slightly darker light blue */
+  --color-secondary-content: #0d1520; /* dark background for contrast */
 
   /* Neutral/gray shades */
-  --neutral-50: #f9fafb;
-  --neutral-100: #f3f4f6;
-  --neutral-200: #e5e7eb;
-  --neutral-300: #d1d5db;
-  --neutral-400: #9ca3af;
-  --neutral-500: #6b7280;
-  --neutral-600: #4b5563;
-  --neutral-700: #374151;
-  --neutral-800: #1f2937;
-  --neutral-900: #111827;
-  --neutral-950: #030712;
+  --color-neutral-50: #f9fafb;
+  --color-neutral-100: #f3f4f6;
+  --color-neutral-200: #e5e7eb;
+  --color-neutral-300: #d1d5db;
+  --color-neutral-400: #9ca3af;
+  --color-neutral-500: #6b7280;
+  --color-neutral-600: #4b5563;
+  --color-neutral-700: #374151;
+  --color-neutral-800: #1f2937;
+  --color-neutral-900: #111827;
+  --color-neutral-950: #030712;
 
   /* Accent/utility colors */
-  --accent: #1a2d48; /* button border color */
-  --accent-focus: #2a4269; /* slightly lighter accent */
-  --accent-content: #b7d3f6; /* light blue text */
+  --color-accent: #1a2d48; /* button border color */
+  --color-accent-focus: #2a4269; /* slightly lighter accent */
+  --color-accent-content: #b7d3f6; /* light blue text */
 
   /* Semantic colors */
-  --success: #22c55e; /* green-500 */
-  --warning: #eab308; /* yellow-500 */
-  --error: #ef4444; /* red-500 */
-  --info: #3b82f6; /* blue-500 */
+  --color-success: #22c55e; /* green-500 */
+  --color-warning: #eab308; /* yellow-500 */
+  --color-error: #ef4444; /* red-500 */
+  --color-info: #3b82f6; /* blue-500 */
 
   /* Background colors */
-  --background: #0d1520; /* dark blue from test.html */
-  --foreground: #b7d3f6; /* light blue text from test.html */
+  --color-background: #0d1520; /* dark blue from test.html */
+  --color-foreground: #b7d3f6; /* light blue text from test.html */
 
   /* Card */
-  --card: #000916; /* button background color */
-  --card-foreground: var(--foreground);
+  --color-card: #000916; /* button background color */
+  --color-card-foreground: var(--color-foreground);
 
   /* Border colors */
-  --border: #1a2d48; /* button border color */
-  --input: var(--border);
-  --ring: var(--primary);
+  --color-border: #1a2d48; /* button border color */
+  --color-input: var(--color-border);
+  --color-ring: var(--color-primary);
 
   /* Miscellaneous */
-  --radius: 0.5rem;
-}
-
-@media (prefers-color-scheme: dark) {
-  @theme {
-    --background: #0d1520; /* dark blue background */
-    --foreground: #b7d3f6; /* light blue text */
-
-    --primary: #ddff20; /* yellow button color */
-    --primary-focus: #c8e81c; /* slightly darker yellow */
-
-    --card: #000916; /* dark card background */
-    --card-foreground: var(--foreground);
-
-    --border: #1a2d48; /* button border color */
-    --input: #1a2d48; /* matching border */
-  }
+  --radius-sm: 0.5rem;
 }
