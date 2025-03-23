@@ -57,7 +57,7 @@ const renderBlock = (block: GhostBlock, index: number): React.ReactNode => {
 
     case 'image':
       return (
-        <figure key={index} className="ghost-image">
+        <figure key={index} className="ghost-image max-w-xl mx-auto">
           <img
             src={block.attributes?.src}
             alt={block.attributes?.alt || ''}
