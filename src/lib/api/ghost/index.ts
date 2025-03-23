@@ -46,8 +46,6 @@ export type {
   Nullable
 };
 
-// No more mock data - we'll handle the absence of data with proper error states
-
 // Utility function to browse posts with pagination
 export async function getPosts(options = {}) {
   // If API is not available, return empty array with error
@@ -76,6 +74,49 @@ export async function getPosts(options = {}) {
   } catch (error) {
     console.error('Error fetching posts:', error);
     // Return empty array instead of mock data
+    return [];
+  }
+}
+
+// Get posts in text format with minimal fields for faster rendering
+export async function getPostsTextFormat(options = {}) {
+  // If API is not available, return empty array with error
+  if (!ghostApi) {
+    console.error('Ghost API is not available. Please set GHOST_CONTENT_API_URL and GHOST_CONTENT_API_KEY environment variables.');
+    return [];
+  }
+
+  try {
+    console.log('Fetching posts in text format with options:', options);
+    const posts = await ghostApi.posts.browse({
+      // Only include fields needed for PostList/PostCard components
+      fields: [
+        'id',
+        'title', 
+        'slug', 
+        'excerpt', 
+        'feature_image', 
+        'published_at', 
+        'access',
+        'reading_time'
+      ],
+      formats: ['plaintext'], // Request text format instead of HTML
+      include: ['authors', 'tags'], // Still include relationships
+      limit: 9, // Default limit
+      ...options
+    });
+
+    console.log(`Successfully fetched ${posts.length} posts in text format`);
+    if (posts.length === 0) {
+      console.warn('No posts found. This could be due to:');
+      console.warn('1. No posts exist in the Ghost instance');
+      console.warn('2. All posts are set to draft/scheduled status');
+      console.warn('3. Content API access is restricted');
+    }
+
+    return posts;
+  } catch (error) {
+    console.error('Error fetching posts in text format:', error);
     return [];
   }
 }
