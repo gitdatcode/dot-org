@@ -125,10 +125,10 @@ export function createContentApi(options: ContentApiOptions) {
  */
 export function createContentApiFromEnv() {
   // Prefer the dedicated base URL if available
-  const baseUrl = import.meta.env.GHOST_BASE_URL;
+  const baseUrl = process.env.GHOST_BASE_URL;
   // Fall back to extracting from the content API URL if needed
-  const contentApiUrl = import.meta.env.GHOST_CONTENT_API_URL;
-  const key = import.meta.env.GHOST_CONTENT_API_KEY;
+  const contentApiUrl = process.env.GHOST_CONTENT_API_URL;
+  const key = process.env.GHOST_CONTENT_API_KEY;
 
   // Determine the final URL to use
   let url = baseUrl;

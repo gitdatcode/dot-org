@@ -1,12 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro'
-
-// Get Ghost settings to use for authentication
-const ghostUrl =
-  import.meta.env.GHOST_API_URL || import.meta.env.SITE_URL || 'https://'
-
-// Initialize error variable for server-side form handling
-let error: string | null = null
 ---
 
 <Layout title="Sign In">

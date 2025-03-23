@@ -9,16 +9,16 @@ import type { GhostMember } from './types';
 export { useAuth } from './useAuth';
 
 // Check if we have the required environment variables for content API
-const hasContentEnvVars = (import.meta.env.GHOST_BASE_URL || import.meta.env.GHOST_CONTENT_API_URL) && import.meta.env.GHOST_CONTENT_API_KEY;
+const hasContentEnvVars = (process.env.GHOST_BASE_URL || process.env.GHOST_CONTENT_API_URL) && process.env.GHOST_CONTENT_API_KEY;
 
 // Get the base URL for the Ghost SDK
-const ghostBaseUrl = import.meta.env.GHOST_BASE_URL || import.meta.env.GHOST_CONTENT_API_URL?.replace(/\/ghost\/api\/content\/?$/, '');
+const ghostBaseUrl = process.env.GHOST_BASE_URL || process.env.GHOST_CONTENT_API_URL?.replace(/\/ghost\/api\/content\/?$/, '');
 
 // Initialize Ghost Content API client if environment variables are available
 export const ghostApi = hasContentEnvVars
   ? new GhostContentAPI({
     url: ghostBaseUrl,
-    key: import.meta.env.GHOST_CONTENT_API_KEY,
+    key: process.env.GHOST_CONTENT_API_KEY,
     version: 'v5.0' // Use proper version format
   })
   : null;
@@ -26,11 +26,11 @@ export const ghostApi = hasContentEnvVars
 // Log the API initialization for debugging
 if (ghostApi) {
   console.log('Ghost Content API initialized with base URL:', ghostBaseUrl);
-  console.log('Content API Key (first 10 chars):', import.meta.env.GHOST_CONTENT_API_KEY.substring(0, 10) + '...');
+  console.log('Content API Key (first 10 chars):', process.env.GHOST_CONTENT_API_KEY.substring(0, 10) + '...');
 } else {
   console.error('Ghost Content API not initialized. Missing environment variables:', {
     hasBaseUrl: Boolean(ghostBaseUrl),
-    hasKey: Boolean(import.meta.env.GHOST_CONTENT_API_KEY)
+    hasKey: Boolean(process.env.GHOST_CONTENT_API_KEY)
   });
 }
 

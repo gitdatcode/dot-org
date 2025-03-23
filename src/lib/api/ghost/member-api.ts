@@ -205,12 +205,12 @@ export function createAdminMemberApi(options: AdminApiAuthOptions) {
  * IMPORTANT: This should only be used in server-side code
  */
 export function createAdminMemberApiFromEnv() {
-  // In Astro, import.meta.env might not be available in server-side code
+  // In Astro, process.env might not be available in server-side code
   // Try to access environment variables through process.env first
-  const adminApiUrl = process.env.GHOST_ADMIN_API_URL || import.meta.env?.GHOST_ADMIN_API_URL;
-  const baseUrl = process.env.GHOST_BASE_URL || import.meta.env?.GHOST_BASE_URL;
-  const key = process.env.GHOST_ADMIN_API_KEY || import.meta.env?.GHOST_ADMIN_API_KEY;
-  const version = process.env.GHOST_ADMIN_API_VERSION || import.meta.env?.GHOST_ADMIN_API_VERSION || 'v5.0';
+  const adminApiUrl = process.env.GHOST_ADMIN_API_URL || process.env?.GHOST_ADMIN_API_URL;
+  const baseUrl = process.env.GHOST_BASE_URL || process.env?.GHOST_BASE_URL;
+  const key = process.env.GHOST_ADMIN_API_KEY || process.env?.GHOST_ADMIN_API_KEY;
+  const version = process.env.GHOST_ADMIN_API_VERSION || process.env?.GHOST_ADMIN_API_VERSION || 'v5.0';
 
   // Determine the URL to use - prefer the admin API URL, but fall back to base URL if needed
   const url = adminApiUrl || (baseUrl ? `${baseUrl}/ghost/api/admin` : null);
