@@ -77,6 +77,31 @@ const pageTitle = post?.title || 'Post Not Found'
             {post!.title}
           </h1>
 
+          <div class="flex items-center">
+            {post!.primary_author && (
+              <div class="flex items-center">
+                {post!.primary_author.profile_image && (
+                  <img
+                    src={post!.primary_author.profile_image}
+                    alt={post!.primary_author.name}
+                    class="w-12 h-12 rounded-full mr-4"
+                  />
+                )}
+                <div>
+                  <h3 class="font-medium text-foreground">
+                    by <a href={`/authors/${post!.primary_author.slug}`}>{post!.primary_author.name}</a>
+                  </h3>
+                  {'bio' in post!.primary_author &&
+                    post!.primary_author.bio && (
+                      <p class="text-sm text-neutral-600">
+                        {post!.primary_author.bio}
+                      </p>
+                    )}
+                </div>
+              </div>
+            )}
+          </div>
+
           <div class="flex items-center text-neutral-600 mb-8">
             <span>{formattedDate}</span>
             {post!.primary_tag && (
@@ -114,7 +139,7 @@ const pageTitle = post?.title || 'Post Not Found'
               </h3>
               <p class="text-neutral-600 mb-4">
                 This content is available exclusively to members. Please sign in
-                to access this premium content.
+                to access this content.
               </p>
               <div class="mt-6">
                 <a
@@ -130,30 +155,7 @@ const pageTitle = post?.title || 'Post Not Found'
 
           <hr class="my-12 border-t border-border" />
 
-          <div class="flex items-center">
-            {post!.primary_author && (
-              <div class="flex items-center">
-                {post!.primary_author.profile_image && (
-                  <img
-                    src={post!.primary_author.profile_image}
-                    alt={post!.primary_author.name}
-                    class="w-12 h-12 rounded-full mr-4"
-                  />
-                )}
-                <div>
-                  <h3 class="font-medium text-foreground">
-                    {post!.primary_author.name}
-                  </h3>
-                  {'bio' in post!.primary_author &&
-                    post!.primary_author.bio && (
-                      <p class="text-sm text-neutral-600">
-                        {post!.primary_author.bio}
-                      </p>
-                    )}
-                </div>
-              </div>
-            )}
-          </div>
+          
         </article>
       )
     }
