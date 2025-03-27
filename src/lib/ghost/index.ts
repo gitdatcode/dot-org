@@ -1,9 +1,12 @@
 import GhostContentAPI from '@tryghost/content-api';
 
+const ghostBaseUrl = process.env.GHOST_BASE_URL || import.meta.env.GHOST_BASE_URL;
+const ghostContentApiKey = process.env.GHOST_CONTENT_API_KEY || import.meta.env.GHOST_CONTENT_API_KEY;
+
 // Initialize the Ghost Content API client
 const api = new GhostContentAPI({
-  url: process.env.SITE_URL || 'https://',
-  key: process.env.GHOST_CONTENT_API_KEY || '',
+  url: ghostBaseUrl,
+  key: ghostContentApiKey,
   version: 'v5.0'
 });
 
