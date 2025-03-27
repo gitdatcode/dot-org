@@ -36,7 +36,9 @@ const GhostRenderer: React.FC<GhostRendererProps> = ({ blocks, className = '' })
 const renderBlock = (block: GhostBlock, index: number): React.ReactNode => {
   switch (block.type) {
     case 'paragraph':
-      return <p key={index} className="text-balance text-secondary" dangerouslySetInnerHTML={{ __html: block.html || '' }} />;
+      // If block.html contains p tags, extract the content from between them
+      const paragraphContent = block.html ? block.html.replace(/<\/?p>/g, '') : '';
+      return <p key={index} className="text-secondary" dangerouslySetInnerHTML={{ __html: paragraphContent }} />;
 
     case 'heading': {
       const level = block.attributes?.level || 1;
