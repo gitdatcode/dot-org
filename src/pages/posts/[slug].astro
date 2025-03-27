@@ -96,9 +96,15 @@ const pageTitle = post?.title || 'Post Not Found'
             ← Back to Posts
           </a>
 
-          <h1 class="text-4xl font-bold text-foreground mt-6 mb-4">
-            {post!.title}
-          </h1>
+          {post && post.title && post.title.length > 20 ? (
+            <h1 class="font-bold text-foreground mt-6 mb-4 text-5xl">
+              {post.title}
+            </h1>
+          ) : (
+            <h1 class="font-bold text-foreground mt-6 mb-4 text-7xl">
+              {post?.title}
+            </h1>
+          )}
 
           <div class="flex items-center">
             {post!.primary_author && (
