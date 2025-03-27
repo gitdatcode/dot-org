@@ -16,6 +16,10 @@ utility - reused classes that perform a specific design pattern
 @plugin "@tailwindcss/typography";
 
 @theme {
+  /* Fonts */
+  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+
+  
   /* Primary brand colors */
   --color-primary: #ddff20; /* yellow from button */
   --color-primary-focus: #c8e81c; /* slightly darker yellow */
