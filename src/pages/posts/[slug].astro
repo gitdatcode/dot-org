@@ -50,6 +50,29 @@ const formattedDate = post?.published_at
 const pageTitle = post?.title || 'Post Not Found'
 ---
 
+<style is:global>
+  p:first-of-type:first-line {
+    font-weight: bold;
+    display: block;
+    font-variant-caps: all-small-caps;
+  }
+
+  p:first-of-type::first-letter {
+    line-height: 1;
+    margin-right: 0.125em;
+    font-weight: normal;
+    font-size: 3em;
+  }
+
+  @supports (-webkit-initial-letter: 3 2) {
+    p:first-of-type::first-letter {
+      initial-letter: 3 2;
+      -webkit-initial-letter: 3 2;
+      font-size: inherit;
+    }
+  }
+</style>
+
 <Root title={pageTitle}>
   <main class="container mx-auto px-4 py-12 font-serif">
     {
