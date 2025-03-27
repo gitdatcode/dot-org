@@ -118,7 +118,10 @@ const pageTitle = post?.title || 'Post Not Found'
                 )}
                 <div>
                   <h3 class="font-medium text-foreground">
-                    by <a href={`/authors/${post!.primary_author.slug}`}>{post!.primary_author.name}</a>
+                    by{" "}
+                    {/* <a href={`/authors/${post!.primary_author.slug}`}> */}
+                      {post!.primary_author.name}
+                    {/* </a> */}
                   </h3>
                   {'bio' in post!.primary_author &&
                     post!.primary_author.bio && (
