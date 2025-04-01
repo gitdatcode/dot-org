@@ -63,7 +63,7 @@ const isMembersOnly = 'access' in post && post.access === false
     </div>
     <h2 class="text-xl font-bold mb-2 text-foreground">
       <a
-        href={`/posts/${post.slug}`}
+        href={`/blog/${post.slug}`}
         class="hover:text-primary transition-colors"
       >
         {post.title}
@@ -91,7 +91,7 @@ const isMembersOnly = 'access' in post && post.access === false
       }
       <div class="ml-auto">
         <a
-          href={`/posts/${post.slug}`}
+          href={`/blog/${post.slug}`}
           class="text-sm font-medium text-primary hover:text-primary-focus transition-colors"
         >
           Read more →
