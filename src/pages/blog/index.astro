@@ -30,7 +30,7 @@ const archivePosts = posts.toSpliced(0, 1)
 ---
 
 <Layout title="DATCODE">
-  <main class="container mx-auto px-4 py-8 max-w-7xl min-h-[100dvh]">
+  <main class="container py-8 min-h-[100dvh]">
     <h1>Latest Post</h1>
     <h2>{latestPost.title}</h2>
     <div class="flex gap-8">
@@ -38,7 +38,7 @@ const archivePosts = posts.toSpliced(0, 1)
       <span>{formattedDate(latestPost.published_at)}</span>
     </div>
     <p>{latestPost.excerpt}</p>
-    <a href=`${latestPost.slug}`>read more</a>
+    <a href=`blog/${latestPost.slug}`>read more</a>
     <aside>
       <h3>Archive</h3>
       {archivePosts.map((post) => (
