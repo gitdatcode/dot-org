@@ -2,6 +2,7 @@
 import Root from '../../layouts/Root.astro'
 import { getPostBySlug, checkMemberAccess } from '../../lib/api/ghost'
 import GhostContent from '../../components/ghost/GhostContent'
+import Layout from '../../layouts/Layout.astro'
 
 // Get the slug from the URL
 const { slug } = Astro.params
@@ -73,7 +74,7 @@ const pageTitle = post?.title || 'Post Not Found'
   }
 </style>
 
-<Root title={pageTitle}>
+<Layout title={pageTitle}>
   <main class="container mx-auto px-4 py-12 font-serif">
     {
       error ? (
@@ -90,7 +91,7 @@ const pageTitle = post?.title || 'Post Not Found'
       ) : (
         <article class="max-w-2xl mx-auto">
           <a
-            href="/posts"
+            href="/blog"
             class="text-primary hover:text-primary-focus mb-6 inline-block"
           >
             ← Back to Posts
@@ -192,4 +193,4 @@ const pageTitle = post?.title || 'Post Not Found'
       )
     }
   </main>
-</Root>
+</Layout>
