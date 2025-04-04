@@ -1,0 +1,63 @@
+/**
+* Tailwind stuff
+*/
+@import url("https://fonts.googleapis.com/css2?family=League+Gothic&family=Lora:ital,wght@0,400..700;1,400..700&display=swap");
+@import "tailwindcss";
+/* @plugin "@tailwindcss/typography"; */
+
+@theme {
+  /* Fonts */
+  --font-serif: "Lato", serif;
+
+  --font-display: "League Gothic", sans-serif;
+
+  /* Primary brand colors */
+  --color-primary: #ddff20; /* yellow from button */
+  --color-primary-focus: #c8e81c; /* slightly darker yellow */
+  --color-primary-content: #000916; /* dark background for contrast */
+
+  /* Secondary brand colors */
+  --color-secondary: #b7d3f6; /* light blue text color */
+  --color-secondary-focus: #92bef0; /* slightly darker light blue */
+  --color-secondary-content: #0d1520; /* dark background for contrast */
+
+  /* Neutral/gray shades */
+  --color-neutral-50: #f9fafb;
+  --color-neutral-100: #f3f4f6;
+  --color-neutral-200: #e5e7eb;
+  --color-neutral-300: #d1d5db;
+  --color-neutral-400: #9ca3af;
+  --color-neutral-500: #6b7280;
+  --color-neutral-600: #4b5563;
+  --color-neutral-700: #374151;
+  --color-neutral-800: #1f2937;
+  --color-neutral-900: #111827;
+  --color-neutral-950: #030712;
+
+  /* Accent/utility colors */
+  --color-accent: #1a2d48; /* button border color */
+  --color-accent-focus: #2a4269; /* slightly lighter accent */
+  --color-accent-content: #b7d3f6; /* light blue text */
+
+  /* Semantic colors */
+  --color-success: #22c55e; /* green-500 */
+  --color-warning: #eab308; /* yellow-500 */
+  --color-error: #ef4444; /* red-500 */
+  --color-info: #3b82f6; /* blue-500 */
+
+  /* Background colors */
+  --color-background: #0d1520; /* dark blue from test.html */
+  --color-foreground: #b7d3f6; /* light blue text from test.html */
+
+  /* Card */
+  --color-card: #000916; /* button background color */
+  --color-card-foreground: var(--color-foreground);
+
+  /* Border colors */
+  --color-border: #1a2d48; /* button border color */
+  --color-input: var(--color-border);
+  --color-ring: var(--color-primary);
+
+  /* Miscellaneous */
+  --radius-sm: 0.5rem;
+}
