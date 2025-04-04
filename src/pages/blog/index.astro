@@ -14,16 +14,16 @@ try {
   // apiError = true
 }
 
-console.log('posts[0]', posts[0])
+// console.log('posts[0]', posts[0])
 const latestPost = posts[0]
 const author = latestPost.authors[0]
 function formattedDate(dateToFormat: Date) {
-const date = new Date(dateToFormat)
- return date.toLocaleDateString('en-US', {
-  month: 'short',
-  day: 'numeric',
-  year: 'numeric'
-})
+  const date = new Date(dateToFormat)
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  })
 }
 
 const archivePosts = posts.toSpliced(0, 1)
@@ -31,22 +31,34 @@ const archivePosts = posts.toSpliced(0, 1)
 
 <Layout title="DATCODE">
   <main class="container py-8 min-h-[100dvh]">
-    <h1>Latest Post</h1>
-    <h2>{latestPost.title}</h2>
-    <div class="flex gap-8">
-      <span>by {author.name}</span>
-      <span>{formattedDate(latestPost.published_at)}</span>
+    <h1 class="text-xl uppercase pb-[6%] font-serif">Latest Post</h1>
+    <h2 class="text-3xl uppercase pb-[3%] font-display text-balance">
+      {latestPost.title}
+    </h2>
+    <div class="flex gap-8 align-middle items-baseline">
+      <span class="font-serif">by {author.name}</span>
+      <span class="font-sans">{formattedDate(latestPost.published_at)}</span>
     </div>
-    <p>{latestPost.excerpt}</p>
-    <a href=`blog/${latestPost.slug}`>read more</a>
+    <p class="text-xs my-[6%] line-clamp-4 font-serif">{latestPost.excerpt}</p>
+    <a href={`/blog/${latestPost.slug}`} class="group bg-[#3A4451] py-[0.375rem] px-4 rounded-[90px] max-w-fit">
+      <span
+        class="relative group-hover:after:content-[''] group-hover:after:absolute group-hover:after:bg-[#CEDDF1] group-hover:after:left-0 group-hover:after:right-0 group-hover:after:h-[2px] group-hover:after:bottom-[-0.6em] group-focus:after:content-[''] group-focus:after:absolute group-focus:after:bg-[#CEDDF1] group-focus:after:left-0 group-focus:after:right-0 group-focus:after:h-[2px] group-focus:after:bottom-[-0.6em] text-[0.9rem]"
+        >read more</span
+      ></a
+    >
+
     <aside>
-      <h3>Archive</h3>
-      {archivePosts.map((post) => (
-      <a href=`blog/${post.slug}` class="flex justify-between">
-        <span>{post.title}</span>
-        <span>{formattedDate(post.published_at)}</span>
-      </a>
-        ))}
+      <h3 class="pt-[14%] pb-[5%] text-xl uppercase font-display">Archive</h3>
+      <div class="flex flex-col gap-3 ms-9">
+        {
+          archivePosts.map((post) => (
+            <a href={`/blog/${post.slug}`} class="flex justify-between text-lg">
+              <span class="font-serif font-bold">{post.title}</span>
+              <span class="font-sans">{post.authors[0].name}</span>
+            </a>
+          ))
+        }
+      </div>
     </aside>
   </main>
 </Layout>
