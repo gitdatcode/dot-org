@@ -5,8 +5,9 @@ body {
 }
 
 body:not(:has(img.button_logo)) {
+/* body:not(:has(img.button_logo)) {
   background-color: #555D68;
-}
+} */
 
 header,
 main,
@@ -16,6 +17,10 @@ footer {
   margin-inline-start: clamp(4%, calc((100% - 600px) / 2), 8%);
   margin-inline-end: auto;
   box-sizing: border-box;
+}
+
+main {
+  margin-inline: auto;
 }
 
 .header {
