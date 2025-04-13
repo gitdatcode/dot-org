@@ -8,6 +8,108 @@
   font-family: inherit;
 }
 
+/* Heading Styles */
+.ghost-content h1 {
+  font-size: 2.5rem;
+  line-height: 1.2;
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+.ghost-content h2 {
+  font-size: 2rem;
+  line-height: 1.3;
+  margin-top: 2rem;
+  margin-bottom: 1.25rem;
+  font-weight: 600;
+}
+
+.ghost-content h3 {
+  font-size: 1.75rem;
+  line-height: 1.4;
+  margin-top: 1.75rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.ghost-content h4 {
+  font-size: 1.5rem;
+  line-height: 1.4;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.ghost-content h5 {
+  font-size: 1.25rem;
+  line-height: 1.5;
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.ghost-content h6 {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin-top: 1.1rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+/* Blockquote Styles */
+.ghost-content blockquote {
+  margin: 2rem 0;
+  padding: 1.5rem 2rem;
+  border-left: 4px solid var(--primary);
+  background-color: rgba(var(--neutral-800), 0.1);
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.ghost-content blockquote p {
+  margin: 0;
+  font-style: italic;
+  color: var(--foreground);
+}
+
+.ghost-content blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.ghost-content blockquote cite {
+  display: block;
+  margin-top: 1rem;
+  font-size: 0.875em;
+  color: var(--foreground-secondary);
+  font-style: normal;
+}
+
+/* Table Styles */
+.ghost-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+}
+
+.ghost-content th {
+  text-align: left;
+  padding: 1rem 1.5rem;
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--primary);
+  border-bottom: 1px solid var(--neutral-700);
+}
+
+.ghost-content td {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--neutral-800);
+}
+
+.ghost-content tr:hover {
+  background-color: rgba(var(--neutral-800), 0.3);
+  transition: background-color 0.2s ease;
+}
+
 /* Gallery Card */
 .kg-gallery-card {
   margin: 1.5em 0;
