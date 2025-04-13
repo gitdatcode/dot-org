@@ -52,13 +52,13 @@ const pageTitle = post?.title || 'Post Not Found'
 ---
 
 <style is:global>
-  p:first-of-type:first-line {
+  .ghost-content > div.prose > p:first-child:first-line {
     font-weight: bold;
     display: block;
     font-variant-caps: all-small-caps;
   }
 
-  p:first-of-type::first-letter {
+  .ghost-content > div.prose > p:first-child::first-letter {
     line-height: 1;
     margin-right: 0.125em;
     font-weight: normal;
@@ -66,11 +66,59 @@ const pageTitle = post?.title || 'Post Not Found'
   }
 
   @supports (-webkit-initial-letter: 3 2) {
-    p:first-of-type::first-letter {
+    .ghost-content > div.prose > p:first-child::first-letter {
       initial-letter: 3 2;
       -webkit-initial-letter: 3 2;
       font-size: inherit;
     }
+  }
+
+  /* List Styles */
+  .ghost-content ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .ghost-content ul ul {
+    list-style-type: circle;
+    margin: 0.5rem 0;
+  }
+
+  .ghost-content ul ul ul {
+    list-style-type: square;
+  }
+
+  .ghost-content ol {
+    list-style-type: decimal;
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .ghost-content ol ol {
+    list-style-type: lower-alpha;
+    margin: 0.5rem 0;
+  }
+
+  .ghost-content ol ol ol {
+    list-style-type: lower-roman;
+  }
+
+  .ghost-content li {
+    margin: 0.5rem 0;
+    padding-left: 0.5rem;
+  }
+
+  .ghost-content li::marker {
+    color: var(--primary);
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  a:hover {
+    color: white;
   }
 </style>
 
