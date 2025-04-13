@@ -9,6 +9,13 @@ import Root from '../layouts/Root.astro';
     align-items: center;
   }
 
+  @media (max-width: 768px) {
+    .links {
+      flex-direction: column;
+      gap: 2rem;
+    }
+  }
+
   .button {
     margin-top: 0 !important;
   }
