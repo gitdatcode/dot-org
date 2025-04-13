@@ -52,13 +52,23 @@ const pageTitle = post?.title || 'Post Not Found'
 ---
 
 <style is:global>
-  .ghost-content > div.prose > p:first-child:first-line {
+  /* Paragraph Spacing */
+  .ghost-content > p.text-secondary {
+    margin-bottom: 1.5rem;
+  }
+
+  .ghost-content > p.text-secondary:last-of-type {
+    margin-bottom: 0;
+  }
+
+  /* Dropcap Styles */
+  .ghost-content > p.text-secondary:first-of-type:first-line {
     font-weight: bold;
     display: block;
     font-variant-caps: all-small-caps;
   }
 
-  .ghost-content > div.prose > p:first-child::first-letter {
+  .ghost-content > p.text-secondary:first-of-type::first-letter {
     line-height: 1;
     margin-right: 0.125em;
     font-weight: normal;
@@ -66,7 +76,7 @@ const pageTitle = post?.title || 'Post Not Found'
   }
 
   @supports (-webkit-initial-letter: 3 2) {
-    .ghost-content > div.prose > p:first-child::first-letter {
+    .ghost-content > p.text-secondary:first-of-type::first-letter {
       initial-letter: 3 2;
       -webkit-initial-letter: 3 2;
       font-size: inherit;
