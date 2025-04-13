@@ -2,6 +2,29 @@
 import Root from '../layouts/Root.astro';
 ---
 
+<style>
+  .links {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+  .button {
+    margin-top: 0 !important;
+  }
+
+  .links li {
+    list-style: none;
+  }
+
+  .links li > a {
+    color: #b7d3f6;
+  }
+  .links li > a:hover {
+    color: white;
+  }
+</style>
+
 <Root title="Home">
   <header class="header">
     <img class="masthead" src="/datcode-ascii.svg" alt="" role="presentation" />
@@ -28,7 +51,7 @@ import Root from '../layouts/Root.astro';
       culture—join our community and be part of something extraordinary.
     </p>
 
-    <div>
+    <div class="links">
       <a
         href="https://discord.gg/hmm2urvdRf"
         target="_blank"
@@ -38,6 +61,13 @@ import Root from '../layouts/Root.astro';
         <span>join the discord</span>
         <img src="/logo.svg" alt="" class="button_logo" role="presentation" />
       </a>
+      <div>
+        <span>we got these, too 👀</span>
+        <ul>
+          <li><a href="/blog">blog</a></li>
+          <li><a href="https://bsky.app/profile/datcode.org">bluesky</a></li>
+        </ul>
+      </div>
     </div>
   </main>
   <footer>
