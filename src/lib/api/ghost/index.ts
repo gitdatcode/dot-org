@@ -25,7 +25,7 @@ export const ghostApi = hasContentEnvVars
   : null;
 
 // Log the API initialization for debugging
-if (ghostApi) {
+if (ghostApi && import.meta.env.DEV) {
   console.log('Ghost Content API initialized with base URL:', ghostBaseUrl);
   console.log('Content API Key (first 10 chars):', ghostContentApiKey.substring(0, 10) + '...');
 } else {
