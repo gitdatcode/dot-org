@@ -18,7 +18,7 @@ footer {
   box-sizing: border-box;
 }
 
-main:has(.ghost-content), main:has(aside) {
+main:has(.ghost-content), main.container {
   margin-inline: auto;
 }
 
