@@ -1,0 +1,55 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PostList from '../components/PostList.astro';
+import SearchBar from '../components/SearchBar.astro';
+import { searchPosts } from '../lib/api/ghost';
+
+// Get the query parameter from the URL
+const query = Astro.url.searchParams.get('query') || '';
+
+// If there's a query, search for posts containing it
+let posts = [];
+let error = null;
+
+if (query) {
+  try {
+    posts = await searchPosts(query);
+  } catch (e) {
+    error = e instanceof Error ? e.message : 'An unknown error occurred';
+    console.error('Search error:', error);
+  }
+}
+---
+
+<Layout title={`Search Results for "${query}"`}>
+  <main class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-center mb-6">
+      {query ? `Search Results for "${query}"` : 'Search Posts'}
+    </h1>
+    
+    <SearchBar query={query} />
+    
+    {error ? (
+      <div class="text-center py-12">
+        <p class="text-red-600">{error}</p>
+      </div>
+    ) : (
+      <>
+        {query && (
+          <PostList 
+            posts={posts} 
+            title={posts.length > 0 
+              ? `Found ${posts.length} result${posts.length === 1 ? '' : 's'}` 
+              : 'No results found'} 
+          />
+        )}
+        
+        {!query && (
+          <div class="text-center py-12 text-gray-600">
+            <p>Enter a search term above to find posts</p>
+          </div>
+        )}
+      </>
+    )}
+  </main>
+</Layout>

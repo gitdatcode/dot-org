@@ -1,0 +1,11 @@
+services:
+  app:
+    build: .
+    ports:
+      - "4321:4321"
+    # sqlite experiment
+    # volumes:
+    #   - ./data:/app/data
+    env_file:
+      - .env.production
+    restart: unless-stopped

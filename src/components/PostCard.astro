@@ -1,0 +1,102 @@
+---
+import type { GhostPost } from '../lib/api/ghost'
+
+interface Props {
+  post: GhostPost
+}
+
+const { post } = Astro.props
+
+// Format the date in a readable format
+let formattedDate = 'No date'
+if (post.published_at) {
+  try {
+    formattedDate = new Date(post.published_at).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    })
+  } catch (error) {
+    console.error('Error formatting date:', error)
+  }
+}
+
+// Check if post is member-only content
+const isMembersOnly = 'access' in post && post.access === false
+---
+
+<article
+  class="rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow bg-card"
+>
+  {
+    post.feature_image && (
+      <div class="relative w-full h-48 overflow-hidden">
+        <img
+          src={post.feature_image}
+          alt={post.title}
+          class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+        />
+      </div>
+    )
+  }
+  <div class="p-6">
+    <div class="flex items-center text-sm text-neutral-500 mb-2">
+      <span>{formattedDate}</span>
+      {
+        post.primary_tag && (
+          <>
+            <span class="mx-2">•</span>
+            <span>{post.primary_tag.name}</span>
+          </>
+        )
+      }
+      {
+        isMembersOnly && (
+          <>
+            <span class="mx-2">•</span>
+            <span class="bg-primary text-primary-content text-xs px-2 py-0.5 rounded">
+              Members
+            </span>
+          </>
+        )
+      }
+    </div>
+    <h2 class="text-xl font-bold mb-2 text-foreground">
+      <a
+        href={`/blog/${post.slug}`}
+        class="hover:text-primary transition-colors"
+      >
+        {post.title}
+      </a>
+    </h2>
+    <p class="text-neutral-600 mb-4 line-clamp-7 overflow-hidden">
+      {post.excerpt || post.title}
+    </p>
+    <div class="flex items-center">
+      {
+        post.primary_author && (
+          <div class="flex items-center">
+            {post.primary_author.profile_image && (
+              <img
+                src={post.primary_author.profile_image}
+                alt={post.primary_author.name}
+                class="w-8 h-8 rounded-full mr-2"
+              />
+            )}
+            <span class="text-sm text-neutral-700">
+              {post.primary_author.name}
+            </span>
+          </div>
+        )
+      }
+      <div class="ml-auto">
+        <a
+          href={`/blog/${post.slug}`}
+          class="text-sm font-medium text-primary hover:text-primary-focus transition-colors"
+        >
+          Read more →
+        </a>
+      </div>
+    </div>
+  </div>
+</article>

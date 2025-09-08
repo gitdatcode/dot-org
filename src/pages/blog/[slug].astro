@@ -1,0 +1,254 @@
+---
+import Root from '../../layouts/Root.astro'
+import { getPostBySlug, checkMemberAccess } from '../../lib/api/ghost'
+import GhostContent from '../../components/ghost/GhostContent'
+import Layout from '../../layouts/Layout.astro'
+
+// Get the slug from the URL
+const { slug } = Astro.params
+
+// Get the member from locals (from middleware)
+// Using 'as any' to bypass TypeScript error since we know this property exists at runtime
+const member = (Astro.locals as any).member
+
+// Fetch the post data from Ghost
+let post
+let error = null
+let hasAccess = false
+
+try {
+  if (!slug) throw new Error('Slug is required')
+
+  post = await getPostBySlug(slug)
+
+  if (!post) {
+    throw new Error('Post not found')
+  }
+
+  // Check access using our utility function
+  hasAccess = await checkMemberAccess(post, member)
+
+  // If no access and post requires membership
+  if (!hasAccess && post.access === false) {
+    console.log(
+      `Post ${slug} requires membership. Member ${member?.email || 'not logged in'}`
+    )
+  }
+} catch (e) {
+  error = e instanceof Error ? e.message : 'An unknown error occurred'
+}
+
+// Format the date in a readable format
+const formattedDate = post?.published_at
+  ? new Date(post.published_at).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    })
+  : ''
+
+// Ensure we have a valid title for the Root component
+const pageTitle = post?.title || 'Post Not Found'
+---
+
+<style is:global>
+  /* Paragraph Spacing */
+  .ghost-content > p.text-secondary {
+    margin-bottom: 1.5rem;
+  }
+
+  .ghost-content > p.text-secondary:last-of-type {
+    margin-bottom: 0;
+  }
+
+  /* Dropcap Styles */
+  .ghost-content > p.text-secondary:first-of-type:first-line {
+    font-weight: bold;
+    display: block;
+    font-variant-caps: all-small-caps;
+  }
+
+  .ghost-content > p.text-secondary:first-of-type::first-letter {
+    line-height: 1;
+    margin-right: 0.125em;
+    font-weight: normal;
+    font-size: 3em;
+  }
+
+  @supports (-webkit-initial-letter: 3 2) {
+    .ghost-content > p.text-secondary:first-of-type::first-letter {
+      initial-letter: 3 2;
+      -webkit-initial-letter: 3 2;
+      font-size: inherit;
+    }
+  }
+
+  /* List Styles */
+  .ghost-content ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .ghost-content ul ul {
+    list-style-type: circle;
+    margin: 0.5rem 0;
+  }
+
+  .ghost-content ul ul ul {
+    list-style-type: square;
+  }
+
+  .ghost-content ol {
+    list-style-type: decimal;
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .ghost-content ol ol {
+    list-style-type: lower-alpha;
+    margin: 0.5rem 0;
+  }
+
+  .ghost-content ol ol ol {
+    list-style-type: lower-roman;
+  }
+
+  .ghost-content li {
+    margin: 0.5rem 0;
+    padding-left: 0.5rem;
+  }
+
+  .ghost-content li::marker {
+    color: var(--primary);
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  a:hover {
+    color: white;
+  }
+</style>
+
+<Layout title={pageTitle}>
+  <main class="container mx-auto px-4 py-12 font-serif">
+    {
+      error ? (
+        <div class="text-center py-12">
+          <h1 class="text-3xl font-bold text-foreground mb-4">Error</h1>
+          <p class="text-neutral-600">{error}</p>
+          <a
+            href="/"
+            class="mt-6 inline-block text-primary hover:text-primary-focus"
+          >
+            ← Back to Home
+          </a>
+        </div>
+      ) : (
+        <article class="max-w-2xl mx-auto">
+          <a
+            href="/blog"
+            class="text-primary hover:text-primary-focus mb-6 inline-block"
+          >
+            ← Back to Posts
+          </a>
+
+          {post && post.title && post.title.length > 20 ? (
+            <h1 class="font-bold text-foreground mt-6 mb-4 text-5xl">
+              {post.title}
+            </h1>
+          ) : (
+            <h1 class="font-bold text-foreground mt-6 mb-4 text-7xl">
+              {post?.title}
+            </h1>
+          )}
+
+          <div class="flex items-center">
+            {post!.primary_author && (
+              <div class="flex items-center">
+                {post!.primary_author.profile_image && (
+                  <img
+                    src={post!.primary_author.profile_image}
+                    alt={post!.primary_author.name}
+                    class="w-12 h-12 rounded-full mr-4"
+                  />
+                )}
+                <div>
+                  <h3 class="font-medium text-foreground">
+                    by{" "}
+                    {/* <a href={`/authors/${post!.primary_author.slug}`}> */}
+                      {post!.primary_author.name}
+                    {/* </a> */}
+                  </h3>
+                  {'bio' in post!.primary_author &&
+                    post!.primary_author.bio && (
+                      <p class="text-sm text-neutral-600">
+                        {post!.primary_author.bio}
+                      </p>
+                    )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div class="flex items-center text-neutral-600 mb-8">
+            <span>{formattedDate}</span>
+            {post!.primary_tag && (
+              <>
+                <span class="mx-2">•</span>
+                <span>{post!.primary_tag.name}</span>
+              </>
+            )}
+            {post!.reading_time && (
+              <>
+                <span class="mx-2">•</span>
+                <span>{post!.reading_time} min read</span>
+              </>
+            )}
+          </div>
+
+          {post!.feature_image && (
+            <div class="mb-8 max-w-2xl">
+              <img
+                src={post!.feature_image}
+                alt={post!.title}
+                class="w-full h-auto rounded-lg"
+              />
+            </div>
+          )}
+
+          {hasAccess ? (
+            <div class="prose prose-lg ghost-content">
+              <GhostContent html={post!.html || ''} client:load />
+            </div>
+          ) : (
+            <div class="bg-neutral-100 p-8 rounded-lg border border-neutral-200 text-center my-8">
+              <h3 class="text-xl font-bold text-foreground mb-2">
+                Members-Only Content
+              </h3>
+              <p class="text-neutral-600 mb-4">
+                This content is available exclusively to members. Please sign in
+                to access this content.
+              </p>
+              <div class="mt-6">
+                <a
+                  href="javascript:void(0)"
+                  onclick="document.querySelector('header button').click()"
+                  class="inline-block px-6 py-3 bg-primary text-primary-content rounded-md hover:bg-primary-focus focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                >
+                  Sign In
+                </a>
+              </div>
+            </div>
+          )}
+
+          <hr class="my-12 border-t border-border" />
+
+          
+        </article>
+      )
+    }
+  </main>
+</Layout>

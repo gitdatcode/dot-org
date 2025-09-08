@@ -1,0 +1,25 @@
+---
+interface Props {
+  query?: string;
+}
+
+const { query = '' } = Astro.props;
+---
+
+<div class="max-w-xl mx-auto w-full mb-8">
+  <form action="/search" method="get" class="flex">
+    <input
+      type="text"
+      name="query"
+      value={query}
+      placeholder="Search posts..."
+      class="flex-grow px-4 py-2 border border-input rounded-l-md focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+    />
+    <button
+      type="submit"
+      class="px-4 py-2 bg-primary text-primary-content rounded-r-md hover:bg-primary-focus focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+    >
+      Search
+    </button>
+  </form>
+</div>
